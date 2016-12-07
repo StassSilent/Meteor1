@@ -1,0 +1,30 @@
+
+<body>
+    <div class="container">
+      <header>
+      <h1>Список({{incompleteCount}})</h1>
+   
+        <label class="hide-completed">
+          <input type="checkbox" />
+      Скрыть выполненные задачи
+        </label>
+   
+         {{> loginButtons}}
+   
+        {{#if currentUser}}
+          <form class="new-task">
+         <input type="text" name="text" placeholder="Новая задача" />
+          <input type="text" name="desc" placeholder="Описание" />
+             <input type="date" name="date" />
+            <input  type="submit" value="Добавить задачу">
+          </form>
+        {{/if}}
+      </header>
+	   <ul>
+       {{#each tasks}}
+         {{> task}}
+       {{/each}}
+     </ul>
+      </div>
+ </body>
+ 
