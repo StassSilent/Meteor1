@@ -2,9 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
  
 import { Tasks } from '../api/tasks.js';
+
  
-import './task.js';
-import './body.html';
+import './task.html';
+ 
+Template.task.events({
+  'click .toggle-checked'() {
+    // Set the checked property to the opposite of its current value
+    Meteor.call('tasks.setChecked', this._id, !this.checked);
+  },
+  'click .delete'() {
+    Meteor.call('tasks.remove', this._id);
+  },
+});
  
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
@@ -31,16 +41,11 @@ Template.body.events({
  
     // Get value from form element
     const target = event.target;
-    const text = target.text.value;
+     const text = target.text.value;
  
     // Insert a task into the collection
-     Tasks.insert({
-      text,
-      createdAt: new Date(), // current time
-      owner: Meteor.userId(),
-      username: Meteor.user().username,
-    });
-	
+    Meteor.call('tasks.insert', text);
+ 
 	
  
     // Clear form
